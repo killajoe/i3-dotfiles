@@ -1,0 +1,391 @@
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+# setting mod variable to windows key
+set $mod Mod4
+
+
+# https://i3wm.org/docs/userguide.html#_focus_wrapping
+focus_wrapping yes
+
+# default workspace layout
+workspace_layout tabbed
+#workspace_layout default
+
+# gaps:
+# Set inner/outer gaps
+#gaps inner 1
+#gaps outer 0
+
+# Smart borders (draw borders around container only if it is not the only container on this workspace)
+set $smart_borders off
+
+# default window borders
+default_border pixel 1
+default_floating_border pixel 3
+
+# Hides vertical and horizontal borders when there's only one window.
+hide_edge_borders both
+
+#popup_during_fullscreen leave_fullscreen
+#show_marks yes
+
+# small window for videos
+bindsym $mod+y fullscreen disable; floating enable; resize set 422 240; sticky enable; move position 870 25
+
+# Assume you are on workspace "1: www" and switch to "2: IM" using mod+2
+# because somebody sent you a message. You don’t need to remember
+# where you came from now, you can just press $mod+2 again to switch back to "1: www".
+set $workspace_auto_back_and_forth yes
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+font pango:Sourcecode Pro Regular 10
+
+
+# turn on mouse following
+focus_follows_mouse no
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+#####################
+# keybindings part: #
+#####################
+
+## application starters:
+
+#start keybindhinter
+bindsym F1 exec ~/.config/i3/scripts/keyhint.sh
+
+# start a terminal
+bindsym $mod+Return exec xfce4-terminal
+
+# open Filemanager 
+bindsym $mod+t exec thunar
+
+# open browser
+bindsym $mod+w exec firefox
+
+## action starters:
+
+# Toggle border
+bindsym $mod+x border toggle
+
+# kill focused window
+bindsym F4 kill
+
+# change focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+#move floating window
+#floating_modifier Mod3
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen
+
+# change container layout
+bindsym $mod+e layout toggle all
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+bindsym $mod+d focus child
+
+# switch to workspace
+bindsym $mod+1    workspace  $ws1
+bindsym $mod+2    workspace  $ws2
+bindsym $mod+3    workspace  $ws3
+bindsym $mod+4    workspace  $ws4
+bindsym $mod+5    workspace  $ws5
+
+# move focused container to workspace
+bindsym $mod+Shift+1    move container to workspace  $ws1
+bindsym $mod+Shift+2    move container to workspace  $ws2
+bindsym $mod+Shift+3    move container to workspace  $ws3
+bindsym $mod+Shift+4    move container to workspace  $ws4
+bindsym $mod+Shift+5    move container to workspace  $ws5
+
+#extra keys:
+bindsym XF86Calculator "exec galculator"
+
+#exit-menu
+bindsym $mod+Shift+e exec ~/.config/i3/scripts/shutdown_menu/shutdown_menu -p rofi -c
+
+# Lock the system
+#bindsym $mod+l exec i3lock -i ~/.config/i3/i3-lock-screen.png -t -f
+bindsym $mod+l exec betterlockscreen -l
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+
+# exit i3 (logs you out of your X session)
+#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# Takes a screenshot
+# of the whole screen
+bindsym Print exec flameshot gui
+
+# of the focused window
+bindsym $mod+Print exec flameshot screen --path ~/Bilder/
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+    bindsym Left   resize shrink width  5 px or 5 ppt
+    bindsym Down   resize shrink height 5 px or 5 ppt
+    bindsym Up     resize grow height   5 px or 5 ppt
+    bindsym Right  resize grow width    5 px or 5 ppt
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+mode "mouse" {
+    # set your three speeds here
+
+    set $slow 1
+    set $quick 10
+    set $fast 50
+
+}
+
+# Make the currently focused window a scratchpad
+bindsym $mod+Shift+z move scratchpad
+
+# Show the first scratchpad window
+bindsym $mod+z scratchpad show
+
+
+# toggle window layouts
+bindsym $mod+n layout stacking
+bindsym $mod+m layout tabbed
+bindsym $mod+b layout default
+
+## audio keys:
+
+# Pulse Audio controls
+#bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 5 +5%
+#bindsym XF86AudioLowerVolume exec pactl set-sink-volume 5 -5%
+#volume up
+bindsym XF86AudioRaiseVolume exec pamixer -i 5 --allow-boost && notify-send "volume: $(pamixer --get-volume)%"
+#volume down
+bindsym XF86AudioLowerVolume exec pamixer -d 5 --allow-boost && notify-send "volume: $(pamixer --get-volume)%"
+#mute
+bindsym XF86AudioMute exec pamixer -t && notify-send "mute: $(pamixer --get-mute)"
+
+
+#bindsym XF86AudioMute exec pactl set-sink-mute 5 toggle
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+
+
+# Media player controls
+bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+#############################
+# workspace configurations: #
+#############################
+
+#workspace-edit
+set $ws1 " trm"
+set $ws2 " cht"
+set $ws3 " fls"
+set $ws4 " mls"
+set $ws5 " net"
+
+# use workspaces on different monitors
+workspace $ws1 output VGA-0
+workspace $ws2 output VGA-0
+workspace $ws3 output HDMI-0
+workspace $ws4 output HDMI-0
+workspace $ws5 output HDMI-0
+
+#####################################
+# monitor and transparency settings #
+#####################################
+
+exec --no-startup-id xrandr --output HDMI-0 --primary --mode 1920x1080 --pos 1280x0 --rotate normal --output HDMI-0 --off --output VGA-0 --mode 1280x1024 --pos 0x56 --rotate normal
+
+##transparency and wallpaper
+#exec --no-startup-id picom -bcCGf -i 0.8 -e 0.8 --no-fading-openclose --sw-opti
+exec_always --no-startup-id "killall picom; sleep 1; picom -cCGb"
+#exec_always --no-startup-id picom --experiemental-backend
+#exec_always --no-startup-id "killall picom; sleep 1; picom -cCGb"
+# exec --no-startup-id feh --bg-fill --randomize ~/Bilder/fullscreen/*
+exec --no-startup-id nitrogen --restore
+##########################
+# autostart applications #
+##########################
+
+#bind program to workspace
+assign [class="Terminator"] $ws1
+assign [class="(?i)Firefox"] $ws5
+assign [class="Firefox"] $ws5
+assign [class="Thunderbird"] $ws4
+assign [class="Thunar"] $ws3
+assign [class="TelegramDesktop"] $ws2
+
+#focus apps when open on another workspace
+#for_window [class=Terminator] focus
+for_window [class=Firefox] focus
+#for_window [class=Thunderbird] focus
+#for_window [class=TelegramDesktop] focus
+#for_window [class=Thunar] focus
+for_window [class="Yad"] border toggle
+
+##apps
+exec --no-startup-id sleep 1 && terminator
+exec --no-startup-id sleep 2 && telegram-desktop
+exec --no-startup-id sleep 3 && firefox
+exec --no-startup-id sleep 4 && thunar
+exec --no-startup-id sleep 5 && thunderbird
+#exec --no-startup-id flameshot
+exec --no-startup-id numlockx
+
+##tools
+exec --no-startup-id sh ~/.config/i3/scripts/packagelist.sh
+exec --no-startup-id dbus-launch dunst --config ~/.config/dunst/dunstrc
+#exec_always --no-startup-id autotiling
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+# dex execute .desktop files
+#exec dex -ae i3
+exec --no-startup-id dex -a -s /etc/xdg/autostart/:~/.config/autostart/
+
+##set floating (nontiling) for special apps
+for_window [class="Xfce4-terminal" instance="xfce4-terminal"] floating enable
+for_window [class="Xsane" instance="xsane"] floating enable
+for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
+for_window [class="qt5ct" instance="qt5ct"] floating enable
+#for_window [class="vlc" instance="vlc"] floating enable
+for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
+for_window [class="Bluetooth-sendto" instance="bluetooth-sendto"] floating enable
+for_window [class="Gpk-application" instance="gpk-application"] floating enable
+for_window [class="Yad" instance="yad"] floating enable
+for_window [class="Galculator" instance="galculator"] floating enable
+for_window [class="Orage" instance="orage"] floating enable
+for_window [class="Orage"] resize set 340 280
+#for_window [class="Virt-manager" instance="virt-manager"] floating enable
+for_window [class="System-config-printer.py" instance="system-config-printer"] floating enable
+for_window [class="zoom" instance="zoom"] floating enable
+
+##fullscreen apps
+#for_window [class="Xxxx" instance="xxxx"] fullscreen enable
+
+##################################
+# bar settings and configuration #
+##################################
+
+## Start i3bar to display a workspace bar (plus the system information i3status
+
+######################################
+# color settings for bar and windows #
+######################################
+
+# Define colors variables: 
+set $darkbluetrans  #001b33e6
+set $darkblue   #001b33
+set $lightdblue #5556ff
+set $lighterblue #aaaaff
+set $urgentred  #e53935
+set $white   #ffffff
+set $purple		#e345ff
+set $grey		#999999
+
+# (window-color) class  border  bground text    indicator child_border
+client.focused          #7F7FFF $darkbluetrans $white #2E9EF4   #285577
+client.focused_inactive #333333 #5F676A $white #484E50   #5F676A
+client.unfocused        #333333 #222222 #888888 #292D2E   #222222
+client.urgent           $purple $urgentred $white $purple   $lightdblue
+client.placeholder      #000000 #0C0C0C $white #000000   #0C0C0C
+# (/window-color)
+
+bar {
+	font pango:Sourcecode Pro Regular 9
+	output VGA-0
+	#output HDMI-0		
+	#tray_output HDMI-0
+	tray_output none
+	position bottom
+	#tray_padding 0
+	colors {
+		    separator          $purple
+            background         $darkbluetrans
+        	statusline         $white
+#                               border      bg          txt         indicator
+            focused_workspace	$lighterblue	$lighterblue	$darkblue	$purple
+		    active_workspace	$lightdblue	$lightdblue	$darkblue	$purple
+		    inactive_workspace	$darkblue	$darkblue	$lightdblue	$purple
+		    urgent_workspace	$urgentred	$urgentred	$white		$purple
+}
+
+	status_command i3blocks -c ~/.config/i3/i3blocks-VGA.conf
+    i3bar_command i3bar --transparency
+
+
+}
+
+bar {	
+	font pango:Sourcecode Pro Regular 9
+	output HDMI-0
+    tray_output HDMI-0
+    tray_padding 0
+	#tray_output primary
+	position bottom
+	colors {
+		    separator          $purple
+            background         $darkbluetrans
+        	statusline         $white
+#                               border      bg          txt         indicator
+            focused_workspace	$lighterblue	$lighterblue	$darkblue	$purple
+		    active_workspace	$lightdblue	$lightdblue	$darkblue	$purple
+		    inactive_workspace	$darkblue	$darkblue	$lightdblue	$purple
+		    urgent_workspace	$urgentred	$urgentred	$white		$purple 
+}
+
+status_command i3blocks -c ~/.config/i3/i3blocks.conf
+i3bar_command i3bar --transparency
+}
+
+#########################
+# rofi application menu #
+#########################
+
+bindsym F9 exec rofi -modi drun -show drun -line-padding 4 \
+                -columns 2 -padding 50 -hide-scrollbar \
+                -show-icons -drun-icon-theme "Arc-X-D" -font "Sourcecode Pro Regular 10" \
+                -window-format {t} "Applications:"
+
+bindsym F10 exec rofi -show window -line-padding 4 \
+                -lines 6 -padding 50 -hide-scrollbar \
+                -show-icons -drun-icon-theme "Arc-X-D" -font "Sourcecode Pro Regular 10"
+
